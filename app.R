@@ -37,16 +37,18 @@ ui <- fluidPage(
 # Define server logic required to draw a histogram
 server <- function(input, output) {
 
-    output$distPlot <- renderPlot({
-        # generate bins based on input$bins from ui.R
-        x    <- faithful[, 2]
-        bins <- seq(min(x), max(x), length.out = input$bins + 1)
-
-        # draw the histogram with the specified number of bins
-        hist(x, breaks = bins, col = 'darkgray', border = 'white',
-             xlab = 'Waiting time to next eruption (in mins)',
-             main = 'Histogram of waiting times')
-    })
+  recette_base <- data.frame(
+    Ingredient = c("Farine", "Sucre blanc", "Sucre roux", "Levure", "Sucre vanillé", "Beurre", "Oeufs", "Chocolat"),
+    Unité = c("g", "g", "g", "sachet", "sachet", "g", "", "g"),
+    Pour_7_cookies = c(220, 50, 50, 0.5, 1, 125, 1, 100))
+  
+  output$recette <- renderTable({
+    recette <- recette_base
+    recette$Quantité <- recette$Pour_7_cookies * (input$nb_cookies / 7)
+    recette$Quantité <- paste0(recette$Quantité, " ", recette$Unité)
+    recette[, c("Ingredient", "Quantité")]
+  })
+  
 }
 
 # Run the application 
