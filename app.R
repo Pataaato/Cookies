@@ -10,7 +10,7 @@ ui <- fluidPage(
   
   sidebarLayout(
     sidebarPanel(
-      sliderInput("nb_cookies", "Nombre de cookies :", min = 7, max = 49, value = 14, step = 7),
+      sliderInput("nb_cookies", "Nombre de cookies :", min = 8, max = 56, value = 16, step = 8),
       downloadButton("download_recette", "Télécharger la recette")
     ),
     mainPanel(
@@ -40,11 +40,11 @@ server <- function(input, output) {
   recette_base <- data.frame(
     Ingredient = c("Farine", "Sucre blanc", "Sucre roux", "Levure", "Sucre vanillé", "Beurre", "Oeufs", "Chocolat"),
     Unité = c("g", "g", "g", "sachet", "sachet", "g", "", "g"),
-    Pour_7_cookies = c(220, 50, 50, 0.5, 1, 125, 1, 100))
+    Pour_8_cookies = c(220, 50, 50, 0.5, 1, 125, 1, 100))
   
   output$recette <- renderTable({
     recette <- recette_base
-    recette$Quantité <- recette$Pour_7_cookies * (input$nb_cookies / 7)
+    recette$Quantité <- recette$Pour_8_cookies * (input$nb_cookies / 8)
     recette$Quantité <- paste0(recette$Quantité, " ", recette$Unité)
     recette[, c("Ingredient", "Quantité")]
   })
@@ -57,7 +57,7 @@ server <- function(input, output) {
         "\nIngrédients :"
       )
       
-      quantites <- recette_base$Pour_7_cookies * (input$nb_cookies / 7)
+      quantites <- recette_base$Pour_8_cookies * (input$nb_cookies / 8)
       for (i in seq_along(recette_base$Ingredient)) {
         lignes <- c(lignes, paste("-", recette_base$Ingredient[i], ":", quantites[i], recette_base$Unité[i]))
       }
