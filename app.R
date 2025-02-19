@@ -1,8 +1,13 @@
-
 library(shiny)
+library(usethis)
+library(dplyr)
+library(ggplot2)
+library(glue)
+library(DT)
 library(bslib)
 library(thematic)
 library(shinylive)
+library(rsconnect)
 
 ui <- fluidPage(
   theme = bs_theme(version = 5, bootswatch = "lux"),
