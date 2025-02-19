@@ -48,8 +48,34 @@ server <- function(input, output) {
     recette$Quantité <- paste0(recette$Quantité, " ", recette$Unité)
     recette[, c("Ingredient", "Quantité")]
   })
-  
+  output$download_recette <- downloadHandler(
+    filename = function() { "recette_cookies.txt" },
+    content = function(file) {
+      lignes <- c(
+        "Recette de Cookies",
+        paste("Nombre de cookies :", input$nb_cookies),
+        "\nIngrédients :"
+      )
+      
+      quantites <- recette_base$Pour_7_cookies * (input$nb_cookies / 7)
+      for (i in seq_along(recette_base$Ingredient)) {
+        lignes <- c(lignes, paste("-", recette_base$Ingredient[i], ":", quantites[i], recette_base$Unité[i]))
+      }
+      
+      lignes <- c(lignes, "\nInstructions :",
+                  "1. Préchauffer le four à 180°C.",
+                  "2. Mélanger dans un bol, la farine, le sucre blanc et roux et la levure.",
+                  "3. Ajouter le sucre vanillé, les œufs et le beurre pommade, bien mélanger.",
+                  "4. Incorporer le chocolat préalablement coupé.",
+                  "5. Former des boules (environ 75-80g) de pâte et les déposer sur une plaque.",
+                  "6. Cuire pendant 5 minutes, puis les sortir 2 minutes avant de les remettre au four pendant 4 minutes."
+      )
+      
+      writeLines(lignes, file)
+    }
+  )
 }
+
 
 # Run the application 
 shinyApp(ui = ui, server = server)
