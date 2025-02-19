@@ -13,10 +13,25 @@ ui <- fluidPage(
       sliderInput("nb_cookies", "Nombre de cookies :", min = 7, max = 49, value = 14, step = 7),
       downloadButton("download_recette", "Télécharger la recette")
     ),
-        mainPanel(
-           plotOutput("distPlot")
+    mainPanel(
+      img(src = "https://www.shutterstock.com/image-photo/two-chocolate-chips-cookies-isolated-600nw-2490826377.jpg", 
+          height = "200px"),
+      
+      tableOutput("recette"),
+      
+      h3("Instructions"),
+      wellPanel(
+        tags$ol(
+          tags$li("Préchauffer le four à 180°C."),
+          tags$li("Mélanger dans un bol, la farine, le sucre blanc et roux et la levure."),
+          tags$li("Ajouter le sucre vanillé, les œufs et le beurre pommade, bien mélanger."),
+          tags$li("Incorporer le chocolat préalablement coupé."),
+          tags$li("Former des boules (environ 75-80g) de pâte et les déposer sur une plaque."),
+          tags$li("Cuire pendant 5 minutes, puis les sortir 2 minutes avant de les remettre au four pendant 4 minutes.")
         )
+      )
     )
+  )
 )
 
 # Define server logic required to draw a histogram
